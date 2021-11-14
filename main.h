@@ -61,6 +61,24 @@ void print_process_list(PL pl){
 }
 
 
+// Ready queue
+typedef struct ReadyQueueNode
+{
+    struct ReadyQueueNode* prev;
+    PLNode* process_node_adress;
+    struct ReadyQueueNode* next;
+} ReadyQueueNode;
+
+
+typedef struct ReadyQueue
+{
+    ReadyQueueNode* head;
+    ReadyQueueNode* tail;
+} ReadyQueue;
+
+
+
+
 // Global variables
 
 #endif

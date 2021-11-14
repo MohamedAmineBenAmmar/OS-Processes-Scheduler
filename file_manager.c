@@ -88,7 +88,36 @@ PL parse_file(char* fileName) {
 }
 
 void pl_sort(PL pl){
+    PL ptri, ptrj, minptr;
+    ProcessData* inter;
 
+    inter = (ProcessData*)malloc(sizeof(ProcessData));
+    ptri = pl;
+
+    while (ptri->next != NULL)
+    {
+        minptr = ptri;
+        ptrj = ptri->next;
+        while (ptrj != NULL)
+        {
+            if (minptr->pd.arrival_time > ptrj->pd.arrival_time){
+                minptr = ptrj;
+            }
+
+            ptrj = ptrj->next;
+        }
+
+        if (ptri != minptr){
+            *inter = ptri->pd;
+            ptri->pd = minptr->pd;
+            minptr->pd = *inter;
+        }
+        
+        ptri = ptri->next;
+    }
+
+    free(inter);
+    
 }
 
 int main(int argc, char* argv[])
@@ -98,8 +127,12 @@ int main(int argc, char* argv[])
     char* fileName = "tests/config/config2";
     PL pl;
 
-    printf("test linked list after modification \n");
     pl = parse_file(fileName);
+    printf("befor sort: \n");
+    print_process_list(pl);
+
+    pl_sort(pl);
+    printf("after sort: \n");
     print_process_list(pl);
     
 
