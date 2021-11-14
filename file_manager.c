@@ -59,36 +59,36 @@ ProcessData extract_process_data(char* line){
     
 }
 
-int parse_file(char* fileName, PDLL* pl_adr) {
+PL parse_file(char* fileName) {
     FILE* file = fopen(fileName, "r"); /* should check the result */
     char line[256];
 
     ProcessData pd;
+    PL pl;
     
     if(!file){
         printf("\n Unable to open : %s ", fileName);
-        return (-1);
+        return NULL;
     }
 
     // Init the process linked list
-    (*pl_adr).head = NULL;
-    (*pl_adr).tail = NULL;
+    pl = NULL;
 
     while (fgets(line, sizeof(line), file)) {       
         // Skip comments and empty lines
         // Extract the process data
         pd = extract_process_data(line);
-        add_process(pl_adr, pd);
+        add_process(&pl, pd);
     }
     
 
     fclose(file);
 
-    return 0;
+    return pl;
 }
 
-void pl_mergesort(PDLL* pl_adr, int a, int b){
-    
+void pl_sort(PL pl){
+
 }
 
 int main(int argc, char* argv[])
@@ -96,11 +96,10 @@ int main(int argc, char* argv[])
     // char const* const fileName = argv[1]; /* should check that argc > 1 */
 
     char* fileName = "tests/config/config2";
-    PDLL pl;
-    int res;
+    PL pl;
 
-    printf("test \n");
-    res = parse_file(fileName, &pl);
+    printf("test linked list after modification \n");
+    pl = parse_file(fileName);
     print_process_list(pl);
     
 

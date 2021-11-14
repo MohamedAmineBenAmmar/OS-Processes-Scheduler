@@ -15,33 +15,24 @@ typedef struct ProcessData {
 } ProcessData;
 
 
-typedef struct PDLLNode
+typedef struct PLNode
 {
-    struct PDLLNode* prev;
     ProcessData pd;
-    struct PDLLNode* next;
-} PDLLNode;
+    struct PLNode* next;
+} PLNode;
 
 
-typedef struct PDLL
-{
-    PDLLNode* head;
-    PDLLNode* tail;
-} PDLL;
+typedef PLNode* PL;
 
 
 // Helper functions
-void add_process(PDLL* pl_adr, ProcessData pd){
-    PDLLNode* ptr;
+void add_process(PL* pl_adr, ProcessData pd){
+    PL ptr;
 
-    ptr = (PDLLNode*)malloc(sizeof(PDLLNode));
-    ptr->prev = NULL;
+    ptr = (PL)malloc(sizeof(PLNode));
     ptr->pd = pd;
-    ptr->next = (*pl_adr).head;
-    (*pl_adr).head = ptr;
-    if ((*pl_adr).tail == NULL) {
-        (*pl_adr).tail = ptr;
-    }
+    ptr->next = *pl_adr;
+    *pl_adr = ptr;
 }
 
 
@@ -57,10 +48,10 @@ void print_process_data(ProcessData pd){
 
 }
 
-void print_process_list(PDLL pl){
-    PDLLNode* ptr;
+void print_process_list(PL pl){
+    PL ptr;
 
-    ptr = pl.head;
+    ptr = pl;
     while (ptr != NULL){
         printf("\n------------------------\n");
         print_process_data(ptr->pd);
