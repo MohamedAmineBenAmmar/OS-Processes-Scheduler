@@ -4,6 +4,7 @@
 #include "main.h"
 
 
+
 int verify_line(char* line){
     // A line is going to be skipped in the floowing cases
 
@@ -58,32 +59,36 @@ ProcessData extract_process_data(char* line){
     
 }
 
-PLL parse_file(char* fileName) {
+int parse_file(char* fileName, PDLL* pl_adr) {
     FILE* file = fopen(fileName, "r"); /* should check the result */
     char line[256];
 
     ProcessData pd;
-    PLL pl;
-
-    if(!file){-
+    
+    if(!file){
         printf("\n Unable to open : %s ", fileName);
-        return NULL;
+        return (-1);
     }
 
     // Init the process linked list
-    pl = NULL;
+    (*pl_adr).head = NULL;
+    (*pl_adr).tail = NULL;
 
     while (fgets(line, sizeof(line), file)) {       
         // Skip comments and empty lines
         // Extract the process data
         pd = extract_process_data(line);
-        add_process(&pl, pd);
+        add_process(pl_adr, pd);
     }
     
 
     fclose(file);
 
-    return pl;
+    return 0;
+}
+
+void pl_mergesort(PDLL* pl_adr, int a, int b){
+    
 }
 
 int main(int argc, char* argv[])
@@ -91,11 +96,12 @@ int main(int argc, char* argv[])
     // char const* const fileName = argv[1]; /* should check that argc > 1 */
 
     char* fileName = "tests/config/config2";
-    PLL pl;
+    PDLL pl;
+    int res;
 
     printf("test \n");
-    pl = parse_file(fileName);
-    print_process_linked_list(pl);
+    res = parse_file(fileName, &pl);
+    print_process_list(pl);
     
 
     return 0;

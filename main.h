@@ -1,7 +1,6 @@
 #ifndef MAIN_HEADER_FILE
 #define MAIN_HEADER_FILE
 
-#include <ctype.h>
 
 // the entire header file file
 
@@ -16,24 +15,33 @@ typedef struct ProcessData {
 } ProcessData;
 
 
-typedef struct PLLNode
+typedef struct PDLLNode
 {
+    struct PDLLNode* prev;
     ProcessData pd;
-    struct PLLNode* next;
-} PLLNode;
+    struct PDLLNode* next;
+} PDLLNode;
 
 
-typedef PLLNode*  PLL;
+typedef struct PDLL
+{
+    PDLLNode* head;
+    PDLLNode* tail;
+} PDLL;
 
 
 // Helper functions
-void add_process(PLL* pl_adr, ProcessData pd){
-    PLL ptr;
+void add_process(PDLL* pl_adr, ProcessData pd){
+    PDLLNode* ptr;
 
-    ptr = (PLL)malloc(sizeof(PLLNode));
+    ptr = (PDLLNode*)malloc(sizeof(PDLLNode));
+    ptr->prev = NULL;
     ptr->pd = pd;
-    ptr->next = *pl_adr;
-    *pl_adr = ptr;
+    ptr->next = (*pl_adr).head;
+    (*pl_adr).head = ptr;
+    if ((*pl_adr).tail == NULL) {
+        (*pl_adr).tail = ptr;
+    }
 }
 
 
@@ -49,10 +57,10 @@ void print_process_data(ProcessData pd){
 
 }
 
-void print_process_linked_list(PLL pl){
-    PLL ptr;
+void print_process_list(PDLL pl){
+    PDLLNode* ptr;
 
-    ptr = pl;
+    ptr = pl.head;
     while (ptr != NULL){
         printf("\n------------------------\n");
         print_process_data(ptr->pd);
@@ -62,14 +70,6 @@ void print_process_linked_list(PLL pl){
 }
 
 
-void substr(char *s, int a, int b, char *t) 
-{
-    strncpy(t, s+a, b);
-}
-
-
 // Global variables
-int test;
-
 
 #endif
