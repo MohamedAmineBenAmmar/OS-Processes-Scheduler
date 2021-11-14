@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
 
@@ -69,7 +70,7 @@ int main() {
    
 
    // Init path variable
-   strcpy(path, "./scheduling_policies/build");
+   strcpy(path, "./scheduling_policies/build/");
 
    // Listing the content of a directory + dynamic menu
    result = dynamic_menu_selection("./scheduling_policies/build", 0, &nbf, selectedFileName);
@@ -83,9 +84,12 @@ int main() {
       // Confirm to the user the choice selected
       result = dynamic_menu_selection(path, choice, &nbf, selectedFileName);
       strcat(path, selectedFileName);
+
       
-      puts("yo final output\n");
       puts(path);
+      int status = system(path);
+      
+      
    } else {
       return -1;
       printf("Error occured !");
