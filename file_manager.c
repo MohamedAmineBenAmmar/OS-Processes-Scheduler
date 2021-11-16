@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "main.h"
+#include "file_manager_functions.h"
 
 
 
