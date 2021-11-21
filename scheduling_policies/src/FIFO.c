@@ -18,6 +18,6 @@ int main(int argc, char **argv)
     printf("from fifo \n");
     print_process_list(pl);
     return 0;*/
-    printf("test");
+    printf("test ooooo\n");
     return 0;
 }
