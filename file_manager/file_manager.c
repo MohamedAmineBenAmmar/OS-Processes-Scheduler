@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "main.h"
 #include "file_manager_functions.h"
+
 
 
 
@@ -121,9 +121,10 @@ void pl_sort(PL pl){
     
 }
 
+/*
 int main(int argc, char* argv[])
 {
-    // char const* const fileName = argv[1]; /* should check that argc > 1 */
+    // char const* const fileName = argv[1];
 
     char* fileName = "tests/config/config2";
     PL pl;
@@ -139,3 +140,4 @@ int main(int argc, char* argv[])
 
     return 0;
 }
+*/

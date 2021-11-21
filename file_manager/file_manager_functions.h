@@ -1,7 +1,7 @@
-#include "main.h"
-
 #ifndef FILE_MANAGER_FUNCTIONS_HEADER_FILE
 #define FILE_MANAGER_FUNCTIONS_HEADER_FILE
+
+#include "../scheduler/types.h"
 
 /**
  * This is a function declaration.

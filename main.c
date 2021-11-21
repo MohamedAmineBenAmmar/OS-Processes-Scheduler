@@ -57,10 +57,6 @@ int dynamic_menu_selection(char* dirName, int choice, int* nbf, char* selectedFi
    return(0);
 }
 
-void scheduling_policy_selection(){
-
-}
-
 
 int main(int argc, char **argv) {
    int n, i, choice, result, nbf;
@@ -73,8 +69,8 @@ int main(int argc, char **argv) {
    strcpy(path, "./scheduling_policies/build/");
 
    // Listing the content of a directory + dynamic menu
-   result = dynamic_menu_selection("./scheduling_policies/build", 0, &nbf, selectedFileName);
-   printf("Type the number of the scheduling policy you want to use: \n\n");
+   result = dynamic_menu_selection(path, 0, &nbf, selectedFileName);
+   printf("Type the number of the scheduling policy you want to use: \n");
 
    if (result == 0){
       do {
@@ -85,6 +81,7 @@ int main(int argc, char **argv) {
 
       // Confirm to the user the choice selected
       result = dynamic_menu_selection(path, choice, &nbf, selectedFileName);
+      printf("Selected scheduling policy: %s\n", selectedFileName);
 
       // Concatenate the full path of the executable
       strcat(path, selectedFileName);
@@ -98,7 +95,7 @@ int main(int argc, char **argv) {
          
       full_path_with_spargs = (char*)malloc((n + strlen(path)) * sizeof(char));
       if (full_path_with_spargs == NULL){
-         printf("Memory not allocated.\n");
+         printf("Memory not allocated for the path with arguments.\n");
          return -1;
       } else {
          strcpy(full_path_with_spargs, path);
@@ -107,13 +104,15 @@ int main(int argc, char **argv) {
             strcat(full_path_with_spargs, argv[i]);
          }  
 
-         puts(full_path_with_spargs);
+         // puts(full_path_with_spargs);
          int status = system(full_path_with_spargs);
+         int exitcode = status / 256;
+
       }
 
    } else {
+      printf("Error occured while listing the content of the scheduling policies, please verify you path !");
       return -1;
-      printf("Error occured !");
    }
    
 

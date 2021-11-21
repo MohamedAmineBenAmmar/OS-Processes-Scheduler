@@ -1,28 +1,5 @@
-#ifndef MAIN_HEADER_FILE
-#define MAIN_HEADER_FILE
+#include "scheduler_functions.h"
 
-// the entire header file file
-
-// Types definition
-
-typedef struct ProcessData
-{
-    char process_name[50];
-    float arrival_time;
-    int duration; // to convert to float
-    int priority;
-
-} ProcessData;
-
-typedef struct PLNode
-{
-    ProcessData pd;
-    struct PLNode *next;
-} PLNode;
-
-typedef PLNode *PL;
-
-// Helper functions
 void add_process(PL *pl_adr, ProcessData pd)
 {
     PL ptr;
@@ -59,20 +36,6 @@ void print_process_list(PL pl)
     }
 }
 
-// Ready queue
-typedef struct ReadyQueueNode
-{
-    struct ReadyQueueNode *prev;
-    PLNode *process_node_adress;
-    struct ReadyQueueNode *next;
-} ReadyQueueNode;
-
-typedef struct ReadyQueue
-{
-    ReadyQueueNode *head;
-    ReadyQueueNode *tail;
-} ReadyQueue;
-
 void enqueue(ReadyQueue rq, PLNode *process_node_adress)
 {
     ReadyQueueNode *ptr;
@@ -102,7 +65,3 @@ PLNode *dequeue(ReadyQueue rq)
 
     return pl_node_adress;
 }
-
-// Global variables
-
-#endif
