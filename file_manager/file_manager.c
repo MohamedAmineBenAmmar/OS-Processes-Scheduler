@@ -31,7 +31,7 @@ ProcessData extract_process_data(char* line){
 
             case 1:
                 // printf("Arrival time\n");
-                pd.arrival_time = atof(field);
+                pd.arrival_time = atoi(field);
                 break;
 
             case 2:

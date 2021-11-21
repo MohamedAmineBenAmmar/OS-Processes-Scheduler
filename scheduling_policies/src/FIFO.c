@@ -1,8 +1,66 @@
 #include "../../scheduler/scheduler_functions.h"
+#include "../../file_manager/file_manager_functions.h"
 
+#include <string.h>
 
 void fifo(PL pl){
+    ReadyQueue rq;
+    PLNode *ptr;
+    PLNode *current_running_process;
 
+    int timer;
+
+    // Init the ready queue
+    rq.head = NULL;
+    rq.tail = NULL;
+
+    // Init the pointer used to loop through the linked list
+    ptr = pl;
+
+    // Init the current running process
+    enqueue(&rq, ptr);
+    
+    timer = ptr->pd.arrival_time;
+
+    ptr = ptr->next;
+
+    while (!(ptr == NULL && isEmptyQueue(rq) == 1))
+    {
+        current_running_process = dequeue(&rq);
+        
+        // Calculating when the process will finish its execution
+        // timer represents when the currnet running process will finis its execution
+
+        if (current_running_process->pd.arrival_time>timer){
+            printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
+            timer = current_running_process->pd.arrival_time;
+        } else if (timer > current_running_process->pd.arrival_time) {
+            printf("The process was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.arrival_time, timer);
+        }
+        timer+= current_running_process->pd.duration;
+        while (ptr != NULL)
+        {
+            if (ptr->pd.arrival_time <= timer){
+                enqueue(&rq, ptr);
+                ptr = ptr->next;
+            } else {
+                // Test if the ready queue is empty
+                if (isEmptyQueue(rq) == 1) {
+                    enqueue(&rq, ptr);
+                    ptr = ptr->next;
+                }
+                break;
+            }
+        }
+
+        // Displaying the result 
+        printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, current_running_process->pd.duration, timer);
+
+        // Display the state of the ready queue
+        // ... to do
+        
+    }
+    
 }
 
 
@@ -10,14 +68,9 @@ void fifo(PL pl){
 int main(int argc, char **argv)
 {
     PL pl;
-/*
-    // Extracting the processes from the configuration file
     pl = parse_file(argv[1]);
     pl_sort(pl);
-
-    printf("from fifo \n");
-    print_process_list(pl);
-    return 0;*/
-    printf("test ooooo\n");
+    // print_process_list(pl);
+    fifo(pl);
     return 0;
 }

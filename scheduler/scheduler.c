@@ -14,7 +14,7 @@ void print_process_data(ProcessData pd)
 {
     printf("Process Data:\n");
     puts(pd.process_name);
-    printf("%f", pd.arrival_time);
+    printf("%d", pd.arrival_time);
     printf("\n");
     printf("%d", pd.duration);
     printf("\n");
@@ -36,7 +36,7 @@ void print_process_list(PL pl)
     }
 }
 
-void enqueue(ReadyQueue rq, PLNode *process_node_adress)
+void enqueue(ReadyQueue *rq, PLNode *process_node_adress)
 {
     ReadyQueueNode *ptr;
 
@@ -44,24 +44,36 @@ void enqueue(ReadyQueue rq, PLNode *process_node_adress)
 
     ptr->prev = NULL;
     ptr->process_node_adress = process_node_adress;
-    ptr->next = rq.tail;
+    ptr->next = rq->tail;
 
-    rq.tail = ptr;
-    if (rq.head == NULL)
+    rq->tail = ptr;
+    if (rq->head == NULL)
     {
-        rq.head = ptr;
+        rq->head = ptr;
     }
 }
 
-PLNode *dequeue(ReadyQueue rq)
+PLNode *dequeue(ReadyQueue *rq)
 {
     PLNode *pl_node_adress;
     ReadyQueueNode *ptr;
 
-    ptr = rq.head;
-    pl_node_adress = rq.head->process_node_adress;
-    rq.head = rq.head->prev;
+    ptr = rq->head;
+    pl_node_adress = rq->head->process_node_adress;
+    rq->head = rq->head->prev;
     free(ptr);
 
+    if (rq->head == NULL){
+        rq->tail = NULL;
+    }
+
     return pl_node_adress;
+}
+
+int isEmptyQueue(ReadyQueue rq){
+    if (rq.head == NULL && rq.tail == NULL) {
+        return 1;
+    } else {
+        return 0;
+    }
 }

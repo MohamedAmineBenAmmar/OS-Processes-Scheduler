@@ -9,8 +9,8 @@
 typedef struct ProcessData
 {
     char process_name[50];
-    float arrival_time;
-    int duration; // to convert to float
+    int arrival_time;
+    int duration; 
     int priority;
 
 } ProcessData;
