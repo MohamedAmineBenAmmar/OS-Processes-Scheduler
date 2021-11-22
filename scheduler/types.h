@@ -23,7 +23,7 @@ typedef struct PLNode
 
 typedef PLNode *PL;
 
-
+// defintion
 // Ready queue
 typedef struct ReadyQueueNode
 {
