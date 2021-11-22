@@ -40,7 +40,7 @@ void enqueue(ReadyQueue *rq, PLNode *process_node_adress)
 {
     ReadyQueueNode *ptr;
 
-    ptr = (ReadyQueueNode *)malloc(sizeof(ReadyQueue));
+    ptr = (ReadyQueueNode *)malloc(sizeof(ReadyQueueNode));
 
     ptr->prev = NULL;
     ptr->process_node_adress = process_node_adress;
@@ -57,21 +57,24 @@ void enqueue(ReadyQueue *rq, PLNode *process_node_adress)
     }
 }
 
-PLNode *dequeue(ReadyQueue *rq)
+PLNode* dequeue(ReadyQueue *rq)
 {
     PLNode *pl_node_adress;
     ReadyQueueNode *ptr;
 
-    ptr = rq->head;
-    pl_node_adress = rq->head->process_node_adress;
-    rq->head = rq->head->prev;
-    rq->head->next = NULL;
-    free(ptr);
+    pl_node_adress = NULL;
+    ptr = NULL;
 
+    ptr = rq->head;
+    pl_node_adress = ptr->process_node_adress;
+    rq->head = rq->head->prev;
     if (rq->head == NULL){
         rq->tail = NULL;
+    } else {
+        rq->head->next = NULL;
     }
-
+   
+    free(ptr); 
     return pl_node_adress;
 }
 
@@ -89,11 +92,14 @@ void print_rq(ReadyQueue rq){
 
     while (ptr != NULL)
     {
-        printf("\n----------------------\n");
+        printf("\n-----------Start rq  -----------\n");
         printf("Prev: %p", ptr->prev);
+        printf("\n");
         print_process_data((*(*ptr).process_node_adress).pd);
         printf("Next: %p", ptr->next);
         ptr = ptr->next;
+
+        printf("\n-----------End rq  -----------\n");
     }  
     
 }

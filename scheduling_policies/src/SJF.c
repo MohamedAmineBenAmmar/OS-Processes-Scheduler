@@ -2,11 +2,12 @@
 #include "../../file_manager/file_manager_functions.h"
 
 #include <string.h>
-
+ReadyQueue rq;
 PLNode* sjp(ReadyQueue *rq){
     ReadyQueueNode *rqn_ptr;
     ReadyQueueNode *process_to_run;
-    PLNode * result;
+    PLNode *result;
+    int n;
     
     process_to_run = rq->tail;
     rqn_ptr = rq->tail->next;
@@ -20,30 +21,31 @@ PLNode* sjp(ReadyQueue *rq){
     
     result = process_to_run->process_node_adress;
 
+
     // Check if the process to run is at the begenning or end of the ready queue
     if (process_to_run->next == NULL){
         rq->head = rq->head->prev;
+
     }
 
-    if (process_to_run->prev == NULL){
+    if (process_to_run->prev == NULL){        
         rq->tail = rq->tail->next;
     }
 
-    if (process_to_run->next != NULL && process_to_run->prev != NULL){
+    if (process_to_run->next != NULL && process_to_run->prev != NULL){        
         process_to_run->prev->next = process_to_run->next;
         process_to_run->next->prev = process_to_run->prev;
     }
 
-    //free(process_to_run);
+    // free(process_to_run);
 
     return result;
 } 
 
 
 void sjf(PL pl){
-    ReadyQueue rq;
+    
     PLNode *ptr;
-    ReadyQueueNode *test;
     PLNode *current_running_process;
     int process_arrival_time;
     int n;
@@ -72,6 +74,7 @@ void sjf(PL pl){
             break;
         }
     }
+
     
     n = 0;
     while (!(isEmptyQueue(rq) == 1))

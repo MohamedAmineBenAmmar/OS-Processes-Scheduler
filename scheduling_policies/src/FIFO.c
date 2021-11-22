@@ -1,13 +1,11 @@
 #include "../../scheduler/scheduler_functions.h"
 #include "../../file_manager/file_manager_functions.h"
 
-#include <string.h>
 
 void fifo(PL pl){
     ReadyQueue rq;
     PLNode *ptr;
     PLNode *current_running_process;
-
     int timer;
 
     // Init the ready queue
@@ -16,13 +14,13 @@ void fifo(PL pl){
 
     // Init the pointer used to loop through the linked list
     ptr = pl;
-
+ 
     // Init the current running process
     enqueue(&rq, ptr);
-    
     timer = ptr->pd.arrival_time;
-
     ptr = ptr->next;
+
+
 
     while (!(ptr == NULL && isEmptyQueue(rq) == 1))
     {
@@ -60,7 +58,7 @@ void fifo(PL pl){
         // ... to do
         
     }
-    
+
 }
 
 
