@@ -46,6 +46,10 @@ void enqueue(ReadyQueue *rq, PLNode *process_node_adress)
     ptr->process_node_adress = process_node_adress;
     ptr->next = rq->tail;
 
+    if (rq->tail != NULL){
+        rq->tail->prev = ptr;
+    }
+    
     rq->tail = ptr;
     if (rq->head == NULL)
     {
@@ -61,6 +65,7 @@ PLNode *dequeue(ReadyQueue *rq)
     ptr = rq->head;
     pl_node_adress = rq->head->process_node_adress;
     rq->head = rq->head->prev;
+    rq->head->next = NULL;
     free(ptr);
 
     if (rq->head == NULL){
@@ -76,4 +81,19 @@ int isEmptyQueue(ReadyQueue rq){
     } else {
         return 0;
     }
+}
+
+void print_rq(ReadyQueue rq){
+    ReadyQueueNode *ptr;
+    ptr = rq.tail;
+
+    while (ptr != NULL)
+    {
+        printf("\n----------------------\n");
+        printf("Prev: %p", ptr->prev);
+        print_process_data((*(*ptr).process_node_adress).pd);
+        printf("Next: %p", ptr->next);
+        ptr = ptr->next;
+    }  
+    
 }
