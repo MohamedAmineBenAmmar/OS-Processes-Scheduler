@@ -3,8 +3,12 @@ SCHEDULING_POLICIES_BUILD_DIR = scheduling_policies/build
 ROOT_BUILD_DIR = build
 
 
+clean_up: main_executable
+	rm ${SCHEDULING_POLICIES_BUILD_DIR}/*.o && rm ${ROOT_BUILD_DIR}/*.o
+
+
 main_executable: scheduler.o file_manager.o scheduling_policies_executables
-	gcc main.c -o main	
+	gcc main.c -o main
 
 
 scheduling_policies_executables: scheduling_policies.o 

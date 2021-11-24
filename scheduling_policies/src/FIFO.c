@@ -20,7 +20,8 @@ void fifo(PL pl){
     timer = ptr->pd.arrival_time;
     ptr = ptr->next;
 
-
+    int n;
+    n = 0;
 
     while (!(ptr == NULL && isEmptyQueue(rq) == 1))
     {
@@ -29,13 +30,16 @@ void fifo(PL pl){
         // Calculating when the process will finish its execution
         // timer represents when the currnet running process will finis its execution
 
-        if (current_running_process->pd.arrival_time>timer){
+        if (current_running_process->pd.arrival_time > timer){
             printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
             timer = current_running_process->pd.arrival_time;
-        } else if (timer > current_running_process->pd.arrival_time) {
-            printf("The process was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.arrival_time, timer);
+        } else if (timer >= current_running_process->pd.arrival_time && n == 1) {
+            printf("The process: %s was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, timer);
         }
+
+        printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, timer, current_running_process->pd.duration, timer + current_running_process->pd.duration);
         timer+= current_running_process->pd.duration;
+
         while (ptr != NULL)
         {
             if (ptr->pd.arrival_time <= timer){
@@ -51,9 +55,7 @@ void fifo(PL pl){
             }
         }
 
-        // Displaying the result 
-        printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, current_running_process->pd.duration, timer);
-
+        (n == 0) && (n++);
         // Display the state of the ready queue
         // ... to do
         

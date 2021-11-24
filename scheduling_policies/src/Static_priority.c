@@ -3,19 +3,28 @@
 
 #include <string.h>
 
-PLNode* sjp(ReadyQueue *rq){
+PLNode* get_process_with_priority(ReadyQueue *rq, char *priority){
     ReadyQueueNode *rqn_ptr;
     ReadyQueueNode *process_to_run;
     PLNode *result;
     int n;
+    char priority_order[5];
+    strcpy(priority_order, "DESC");
     
     process_to_run = rq->tail;
     rqn_ptr = rq->tail->next;
     while (rqn_ptr != NULL)
     {
-        if (rqn_ptr->process_node_adress->pd.duration < process_to_run->process_node_adress->pd.duration){
-            process_to_run = rqn_ptr;
+        if (strcmp(priority, priority_order) == 0){
+            if (rqn_ptr->process_node_adress->pd.priority < process_to_run->process_node_adress->pd.priority){
+                process_to_run = rqn_ptr;
+            }
+        } else {
+            if (rqn_ptr->process_node_adress->pd.priority > process_to_run->process_node_adress->pd.priority){
+                process_to_run = rqn_ptr;
+            }
         }
+        
         rqn_ptr = rqn_ptr->next;
     }
     
@@ -49,7 +58,7 @@ PLNode* sjp(ReadyQueue *rq){
 } 
 
 
-void sjf(PL pl){
+void static_priority(PL pl, char *priority){
     ReadyQueue rq;
     PLNode *ptr;
     PLNode *current_running_process;
@@ -84,7 +93,7 @@ void sjf(PL pl){
     n = 0;
     while (!(isEmptyQueue(rq) == 1))
     {
-        current_running_process = sjp(&rq);
+        current_running_process = get_process_with_priority(&rq, priority);
     
         if (current_running_process->pd.arrival_time > timer){
             printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
@@ -98,7 +107,7 @@ void sjf(PL pl){
         :
         (printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, timer, current_running_process->pd.duration, timer + current_running_process->pd.duration));
 */
-        printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, timer, current_running_process->pd.duration, timer + current_running_process->pd.duration);        
+        printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, timer + current_running_process->pd.duration);        
         timer+= current_running_process->pd.duration;
 
         while (ptr != NULL)
@@ -131,9 +140,12 @@ void sjf(PL pl){
 int main(int argc, char **argv)
 {
     PL pl;
+    char priority[5];
+    strcpy(priority, "ASC");
+    
     pl = parse_file(argv[1]);
     pl_sort(pl);
     // print_process_list(pl);
-    sjf(pl);
+    static_priority(pl, priority);
     return 0;
 }
