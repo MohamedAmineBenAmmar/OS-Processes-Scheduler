@@ -2,7 +2,7 @@
 #include "../../file_manager/file_manager_functions.h"
 
 #include <string.h>
-ReadyQueue rq;
+
 PLNode* sjp(ReadyQueue *rq){
     ReadyQueueNode *rqn_ptr;
     ReadyQueueNode *process_to_run;
@@ -23,28 +23,34 @@ PLNode* sjp(ReadyQueue *rq){
 
 
     // Check if the process to run is at the begenning or end of the ready queue
-    if (process_to_run->next == NULL){
+    if (process_to_run == rq->head){
         rq->head = rq->head->prev;
-
-    }
-
-    if (process_to_run->prev == NULL){        
+        if (rq->head != NULL){
+            rq->head->next = NULL;
+        } else {
+            rq->tail = NULL;
+        }
+        
+    } else if (process_to_run == rq->tail){        
         rq->tail = rq->tail->next;
-    }
-
-    if (process_to_run->next != NULL && process_to_run->prev != NULL){        
+        if (rq->tail != NULL){
+            rq->tail->prev = NULL;
+        } else {
+            rq->head = NULL;
+        }
+    } else if (process_to_run != rq->tail && process_to_run != rq->head){        
         process_to_run->prev->next = process_to_run->next;
         process_to_run->next->prev = process_to_run->prev;
     }
 
-    // free(process_to_run);
+    free(process_to_run);
 
     return result;
 } 
 
 
 void sjf(PL pl){
-    
+    ReadyQueue rq;
     PLNode *ptr;
     PLNode *current_running_process;
     int process_arrival_time;
@@ -61,13 +67,13 @@ void sjf(PL pl){
 
     // Init the ready queue by the elemnts wich will be used later     
     enqueue(&rq, ptr);
-    process_arrival_time = ptr->pd.arrival_time;
+    timer = ptr->pd.arrival_time;
 
     
     ptr = ptr->next;
     while (ptr != NULL)
     {
-        if (ptr->pd.arrival_time == process_arrival_time){
+        if (ptr->pd.arrival_time == timer){
             enqueue(&rq, ptr);
             ptr = ptr->next;
         } else {
@@ -75,23 +81,23 @@ void sjf(PL pl){
         }
     }
 
-    
     n = 0;
     while (!(isEmptyQueue(rq) == 1))
     {
         current_running_process = sjp(&rq);
-        if (n == 0){
-            // Init the timer
-            timer = current_running_process->pd.arrival_time;
-            n++;
-        }
-        
-        if (current_running_process->pd.arrival_time>timer){
+    
+        if (current_running_process->pd.arrival_time > timer){
             printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
             timer = current_running_process->pd.arrival_time;
-        } else if (timer > current_running_process->pd.arrival_time) {
+        } else if (timer >= current_running_process->pd.arrival_time && n == 1) {
             printf("The process was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.arrival_time, timer);
         }
+
+        (n == 0) ?
+        (printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, current_running_process->pd.duration, current_running_process->pd.arrival_time + current_running_process->pd.duration))
+        :
+        (printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, timer, current_running_process->pd.duration, timer + current_running_process->pd.duration));
+        
         timer+= current_running_process->pd.duration;
 
         while (ptr != NULL)
@@ -109,9 +115,7 @@ void sjf(PL pl){
             }
         }
 
-        // Displaying the result 
-        printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, current_running_process->pd.duration, timer);
-
+        (n == 0) && (n++);
         // Display the state of the ready queue
         // ... to do
 
