@@ -1,11 +1,9 @@
 #include "../../scheduler/scheduler_functions.h"
 #include "../../file_manager/file_manager_functions.h"
-
-// This header file contains all the shared functions between the static and dynamic priority algorithms
 #include "shared/priority_functions.h"
 
 
-void static_priority(PL pl, char *priority){
+void dynamic_priority(PL pl, char *priority){
     ReadyQueue rq;
     PLNode *ptr;
     PLNode *current_running_process;
@@ -41,7 +39,11 @@ void static_priority(PL pl, char *priority){
     while (!(isEmptyQueue(rq) == 1))
     {
         current_running_process = get_process_with_priority(&rq, priority);
-    
+        // The current running process is going to run for a certain amount of time
+        // until a process with more priority come and take his palace
+
+
+
         if (current_running_process->pd.arrival_time > timer){
             printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
             timer = current_running_process->pd.arrival_time;
@@ -93,6 +95,6 @@ int main(int argc, char **argv)
     pl = parse_file(argv[1]);
     pl_sort(pl);
     // print_process_list(pl);
-    static_priority(pl, priority);
+    dynamic_priority(pl, priority);
     return 0;
 }

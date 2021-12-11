@@ -86,6 +86,9 @@ int main(int argc, char **argv) {
       // Concatenate the full path of the executable
       strcat(path, selectedFileName);
 
+      // strcat(path, ' ');
+      // strcat(path, argv[1]);
+
       // Preparing the args to be passed to the scheduling policy
       n = 0;
       for(i=1; i<argc; i++){
