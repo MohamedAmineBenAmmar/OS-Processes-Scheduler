@@ -6,12 +6,12 @@ ROOT_BUILD_DIR = build
 
 
 
-main_executable: scheduler.o file_manager.o scheduling_policies_executables
+main_executable: scheduler.o file_manager.o analysis.o scheduling_policies_executables
 	gcc main.c -o main
 
 
 scheduling_policies_executables: scheduling_policies.o 
-	@for f in $(shell ls -1 ${SCHEDULING_POLICIES_BUILD_DIR}/*.o | xargs -n 1 basename | sed 's/\.[a-z]*//g'); do gcc ${ROOT_BUILD_DIR}/file_manager.o ${ROOT_BUILD_DIR}/scheduler.o ${SCHEDULING_POLICIES_BUILD_DIR}/$${f}.o -o ${SCHEDULING_POLICIES_BUILD_DIR}/$${f} ; done
+	@for f in $(shell ls -1 ${SCHEDULING_POLICIES_BUILD_DIR}/*.o | xargs -n 1 basename | sed 's/\.[a-z]*//g'); do gcc ${ROOT_BUILD_DIR}/file_manager.o ${ROOT_BUILD_DIR}/scheduler.o ${ROOT_BUILD_DIR}/analysis.o ${SCHEDULING_POLICIES_BUILD_DIR}/$${f}.o -o ${SCHEDULING_POLICIES_BUILD_DIR}/$${f} ; done
 
 
 scheduling_policies.o: scheduling_policies/src/*.c
@@ -24,3 +24,7 @@ scheduler.o: scheduler/scheduler.c scheduler/scheduler_functions.h scheduler/typ
 
 file_manager.o: file_manager/file_manager.c file_manager/file_manager_functions.h scheduler/types.h
 	gcc -c file_manager/file_manager.c -o build/file_manager.o
+
+
+analysis.o: analysis/analysis.c analysis/analysis_functions.h analysis/analysis.h
+	gcc -c analysis/analysis.c -o build/analysis.o
