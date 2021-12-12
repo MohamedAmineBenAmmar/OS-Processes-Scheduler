@@ -1,2 +1,6 @@
 Execution_ID,Process_Name,Arrival_Time,Duration,Priority,Algorithm,Entry_CPU_Time,Exit_CPU_Time,Quantum
-1,Process_name_test,12,5,5,RR,[x,y,z],[a,z,e],Q
+1,processx,1,20,3,Dynamic_priority,[1,120],[5,136],0,
+1,processy,5,25,4,Dynamic_priority,[5,105],[15,120],0,
+1,processz,15,30,5,Dynamic_priority,[15],[45],0,
+1,processa,20,30,4,Dynamic_priority,[75],[105],0,
+1,processb,20,30,5,Dynamic_priority,[45],[75],0,

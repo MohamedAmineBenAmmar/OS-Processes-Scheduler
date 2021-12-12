@@ -32,11 +32,13 @@ ProcessData extract_process_data(char* line){
             case 1:
                 // printf("Arrival time\n");
                 pd.arrival_time = atoi(field);
+                pd.backup.arrival_time = atoi(field);
                 break;
 
             case 2:
                 // printf("Duration\n");
                 pd.duration = atoi(field);
+                pd.backup.duration = atoi(field);
                 break;
 
             case 3:

@@ -6,12 +6,23 @@
 
 // Types definition
 
+typedef struct ProcessDataBackup
+{
+    /* data */
+    int arrival_time;
+    int duration;
+
+} ProcessDataBackup;
+
+
 typedef struct ProcessData
 {
     char process_name[50];
     int arrival_time;
     int duration; 
     int priority;
+
+    ProcessDataBackup backup;
 
 } ProcessData;
 

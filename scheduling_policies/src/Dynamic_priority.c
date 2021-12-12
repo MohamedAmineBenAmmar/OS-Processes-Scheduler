@@ -2,7 +2,9 @@
 #include "../../file_manager/file_manager_functions.h"
 #include "shared/priority_functions.h"
 
-void dynamic_priority(PL pl, char *priority)
+#include "../../analysis/analysis_functions.h"
+
+void dynamic_priority(PL pl, char *priority, TDL *tdl)
 {
     ReadyQueue rq;
     PLNode *ptr;
@@ -128,11 +130,17 @@ void dynamic_priority(PL pl, char *priority)
 
         if (process_to_be_selected == NULL)
         {
+            // Track the processes entry and exit cpu time
+            track_process(tdl, current_running_process, timer, expected_end_execution_time);
+            // End track
             printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d (process is not interrupted)\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, expected_end_execution_time);
-            timer+= current_running_process->pd.duration;
+            timer += current_running_process->pd.duration;
         }
         else
         {
+            // Track the processes entry and exit cpu time
+            track_process(tdl, current_running_process, timer, process_to_be_selected->pd.arrival_time);
+            // End track
             printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d (process is interrupted by %s)\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, process_to_be_selected->pd.arrival_time, process_to_be_selected->pd.process_name);
 
             // Here we are sure that the current running process didn't finish its duration
@@ -160,12 +168,29 @@ void dynamic_priority(PL pl, char *priority)
 int main(int argc, char **argv)
 {
     PL pl;
+    TDL tdl;
+
     char priority[5];
+    char algorithm[100];
+
+    strcpy(algorithm, "Dynamic_priority");
     strcpy(priority, "ASC");
 
     pl = parse_file(argv[1]);
     pl_sort(pl);
     // print_process_list(pl);
-    dynamic_priority(pl, priority);
+
+    // Init the tracking data list
+    tdl = NULL;
+
+    // Performing the scheduling algorithm
+    dynamic_priority(pl, priority, &tdl);
+
+    // Generate the analysis data
+    load_data(pl, tdl, algorithm, 0, "./analysis/data/scheduler_dataset.csv");
+    
+    printf("\nDEBUGGING \n");
+    display_track_list(tdl);
+    
     return 0;
 }

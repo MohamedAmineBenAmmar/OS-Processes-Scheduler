@@ -31,5 +31,22 @@ typedef struct TrackingDataNode
 
 typedef TrackingDataNode *TDL; //TrackingDataList
 
+/*
+typedef struct AnalysisData
+{
+  
+    int execution_id;
+    char process_name[50];
+    int arrival_time;
+    int duration;
+    int priority;
+    char algorithm[100];
+    CPU_Time_List entry_cpu_time;
+    CPU_Time_List exit_cpu_time;
+    int quantum;
+
+} AnalysisData;
+*/
+
 
 #endif
