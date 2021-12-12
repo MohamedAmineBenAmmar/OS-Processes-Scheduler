@@ -1,0 +1,2 @@
+Execution_ID,Process_Name,Arrival_Time,Duration,Priority,Algorithm,Entry_CPU_Time,Exit_CPU_Time,Quantum
+1,Process_name_test,12,5,5,RR,[x,y,z],[a,z,e],Q
