@@ -4,7 +4,8 @@ ROOT_BUILD_DIR = build
 
 
 
-
+clean_up: main_executable
+	rm ${SCHEDULING_POLICIES_BUILD_DIR}/*.o && rm ${ROOT_BUILD_DIR}/*.o
 
 main_executable: scheduler.o file_manager.o analysis.o scheduling_policies_executables
 	gcc main.c -o main

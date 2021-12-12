@@ -189,8 +189,9 @@ int main(int argc, char **argv)
     // Generate the analysis data
     load_data(pl, tdl, algorithm, 0, "./analysis/data/scheduler_dataset.csv");
     
+    /*
     printf("\nDEBUGGING \n");
     display_track_list(tdl);
-    
+    */
     return 0;
 }
