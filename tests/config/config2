@@ -1,3 +1,5 @@
-processx,20,10,21,
-processy,20,2,22,
-processz,20,1,25,
+processx,1,20,3,
+processy,5,25,4,
+processz,15,30,5,
+processa,20,30,4,
+processb,20,30,5,
