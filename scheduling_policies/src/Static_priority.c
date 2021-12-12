@@ -94,12 +94,31 @@ int main(int argc, char **argv)
     char algorithm[100];
     char priority[5];
 
+    int res;
+
+    res = 0;
+    printf("Type the order in wich you want the processes to be scheduled (allowed values are ASC / DESC): ");
+    while (res == 0)
+    {
+        scanf("%s", priority);
+        if (strcmp(priority, "ASC") == 0 || strcmp(priority, "DESC") == 0)
+        {
+            res = 1;
+        }    
+        else
+        {
+            printf("Order selected does not match the allowed values !, Pleas try again: ");
+        }
+    }
+    
+
     strcpy(algorithm, "Static_priority");
-    strcpy(priority, "ASC");
+    
 
     pl = parse_file(argv[1]);
     pl_sort(pl);
     // print_process_list(pl);
+    
     static_priority(pl, priority, &tdl);
 
     // Generate the analysis data

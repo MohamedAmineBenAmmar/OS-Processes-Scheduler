@@ -173,8 +173,25 @@ int main(int argc, char **argv)
     char priority[5];
     char algorithm[100];
 
+    int res;
+
+    res = 0;
+    printf("Type the order in wich you want the processes to be scheduled (allowed values are ASC / DESC): ");
+    while (res == 0)
+    {
+        scanf("%s", priority);
+        if (strcmp(priority, "ASC") == 0 || strcmp(priority, "DESC") == 0)
+        {
+            res = 1;
+        }    
+        else
+        {
+            printf("Order selected does not match the allowed values !, Pleas try again: ");
+        }
+    }
+    
     strcpy(algorithm, "Dynamic_priority");
-    strcpy(priority, "ASC");
+    
 
     pl = parse_file(argv[1]);
     pl_sort(pl);

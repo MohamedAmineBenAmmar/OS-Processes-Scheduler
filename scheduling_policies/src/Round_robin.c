@@ -1,7 +1,9 @@
 #include "../../scheduler/scheduler_functions.h"
 #include "../../file_manager/file_manager_functions.h"
-#include<string.h>
+#include <string.h>
 #include "../../analysis/analysis_functions.h"
+
+#include "../../utils/types_validation.h"
 
 void round_robin(PL pl, int quantum, TDL *tdl)
 {
@@ -129,16 +131,35 @@ int main(int argc, char **argv)
     PL pl;
     TDL tdl;
 
+    int quantum;
     char algorithm[100];
+
+    char input[256];
+    int res;
 
     strcpy(algorithm, "Round_robin");
 
     pl = parse_file(argv[1]);
     pl_sort(pl);
-    int quantum;
 
-    quantum = 4;
+    // Getting the value of the quantum from the user
+    res = 0;
+    printf("\nEnter the value of the quantum: ");
+    while (res == 0)
+    {
+        scanf("%s", input);
+        res = digit_check(input);
+        if (res == 0)
+        {
+            printf("The quantum must be an integer !, Pleas try again: ");
+        }
+    }
+
+    quantum = atoi(input);
+    
+    // Init the tracking list
     tdl = NULL;
+    
     // print_process_list(pl);
     round_robin(pl, quantum, &tdl);
 
