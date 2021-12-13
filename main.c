@@ -114,7 +114,8 @@ int main(int argc, char **argv)
       }
 
       // Confirm to the user the choice selected
-      printf("Selected scheduling policy: %s\n", selectedFileName);
+      printf("\n\nExecution Statistics:\n");
+      printf("\nSelected scheduling policy: %s\n\n", selectedFileName);      
 
       // Concatenate the full path of the executable
       strcat(path, selectedFileName);

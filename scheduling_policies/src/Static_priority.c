@@ -58,7 +58,7 @@ void static_priority(PL pl, char *priority, TDL *tdl)
         // Track the processes entry and exit cpu time
         track_process(tdl, current_running_process, timer, timer + current_running_process->pd.duration);
         // End track
-        printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, timer + current_running_process->pd.duration);
+        printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d\n\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, timer + current_running_process->pd.duration);
         timer += current_running_process->pd.duration;
 
         while (ptr != NULL)

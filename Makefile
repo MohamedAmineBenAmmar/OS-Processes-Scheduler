@@ -3,9 +3,13 @@ SCHEDULING_POLICIES_BUILD_DIR = scheduling_policies/build
 ROOT_BUILD_DIR = build
 
 
+permission_management: clean_up
+	@for f in $(shell ls ${SCHEDULING_POLICIES_BUILD_DIR}); do chmod 700 ./${SCHEDULING_POLICIES_BUILD_DIR}/$${f} ; done && chmod 700 ./main
+
 
 clean_up: main_executable
 	rm ${SCHEDULING_POLICIES_BUILD_DIR}/*.o && rm ${ROOT_BUILD_DIR}/*.o
+
 
 main_executable: scheduler.o file_manager.o analysis.o scheduling_policies_executables
 	gcc main.c -o main
