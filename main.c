@@ -21,7 +21,7 @@ int dynamic_menu_selection(char *dirName, int choice, int *nbf, char *selectedFi
    {
       if (choice == 0)
       {
-         printf("\n----- Existing Scheduling Policies -----\n");
+         printf("----- Existing Scheduling Policies -----\n\n");
       }
 
       while ((dir = readdir(d)) != NULL)
@@ -113,9 +113,9 @@ int main(int argc, char **argv)
          strcpy(selectedFileName, "FIFO");
       }
 
-      // Confirm to the user the choice selected
-      printf("\n\nExecution Statistics:\n");
-      printf("\nSelected scheduling policy: %s\n\n", selectedFileName);      
+      // Confirm to the user the choice selected      
+      printf("\n\nSelected scheduling policy: %s\n", selectedFileName);      
+      printf("\nExecution Statistics:\n\n");
 
       // Concatenate the full path of the executable
       strcat(path, selectedFileName);
