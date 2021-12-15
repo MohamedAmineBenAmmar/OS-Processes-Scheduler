@@ -102,7 +102,6 @@ int main(int argc, char **argv)
 
       } while (!(result == 1));
 
-
       // Check if the user types an integer as an input
       if (input_res == 1)
       {
@@ -115,7 +114,7 @@ int main(int argc, char **argv)
 
       // Confirm to the user the choice selected
       printf("\n\nExecution Statistics:\n");
-      printf("\nSelected scheduling policy: %s\n\n", selectedFileName);      
+      printf("\nSelected scheduling policy: %s\n\n", selectedFileName);
 
       // Concatenate the full path of the executable
       strcat(path, selectedFileName);
@@ -143,7 +142,7 @@ int main(int argc, char **argv)
             strcat(full_path_with_spargs, argv[i]);
          }
 
-         // puts(full_path_with_spargs);
+         // puts(full_path_with_spargs);         
          int status = system(full_path_with_spargs);
          int exitcode = status / 256;
 
