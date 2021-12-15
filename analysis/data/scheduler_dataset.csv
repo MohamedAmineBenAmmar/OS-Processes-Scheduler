@@ -1,6 +1,6 @@
 Execution_ID,Process_Name,Arrival_Time,Duration,Priority,Algorithm,Entry_CPU_Time,Exit_CPU_Time,Quantum
-45,processx,1,20,3,SJF,[1],[21],0,
-45,processy,5,25,4,SJF,[21],[46],0,
-45,processz,15,30,5,SJF,[106],[136],0,
-45,processa,20,30,4,SJF,[76],[106],0,
-45,processb,20,30,5,SJF,[46],[76],0,
+51,processx,1,20,3,FIFO,[1],[21],0,
+51,processy,5,25,4,FIFO,[21],[46],0,
+51,processz,15,30,5,FIFO,[46],[76],0,
+51,processa,20,30,4,FIFO,[76],[106],0,
+51,processb,20,30,5,FIFO,[106],[136],0,

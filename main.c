@@ -21,7 +21,7 @@ int dynamic_menu_selection(char *dirName, int choice, int *nbf, char *selectedFi
    {
       if (choice == 0)
       {
-         printf("----- Existing Scheduling Policies -----\n\n");
+         printf("\n----- Menu -----\n");
       }
 
       while ((dir = readdir(d)) != NULL)
@@ -113,9 +113,9 @@ int main(int argc, char **argv)
          strcpy(selectedFileName, "FIFO");
       }
 
-      // Confirm to the user the choice selected      
-      printf("\n\nSelected scheduling policy: %s\n", selectedFileName);      
-      printf("\nExecution Statistics:\n\n");
+      // Confirm to the user the choice selected
+      printf("\n\nExecution Statistics:\n");
+      printf("\nSelected scheduling policy: %s\n\n", selectedFileName);      
 
       // Concatenate the full path of the executable
       strcat(path, selectedFileName);
@@ -146,6 +146,10 @@ int main(int argc, char **argv)
          // puts(full_path_with_spargs);
          int status = system(full_path_with_spargs);
          int exitcode = status / 256;
+
+         printf("\nGenerating Graphs ...\n");
+         status = system("python3 analysis/generate_graphs.py");
+         exitcode = status / 256;
       }
    }
    else

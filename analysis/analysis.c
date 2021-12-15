@@ -195,9 +195,8 @@ void load_data(PL pl, TDL tdl, char *algorithm, int quantum, char *destination_f
     }
     else
     {
-        // Init: Write the file headers
+        // Wrting the file header 
         fprintf(file, "Execution_ID,Process_Name,Arrival_Time,Duration,Priority,Algorithm,Entry_CPU_Time,Exit_CPU_Time,Quantum\n");
-
 
         // 1- Extracting the execution id
         get_execution_id("./analysis/config", buffer);
