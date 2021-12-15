@@ -27,6 +27,11 @@ void round_robin(PL pl, int quantum, TDL *tdl)
     int n;
     n = 0;
 
+    // Init the table header
+    printf("+====================+==============================+========================+\n");
+    printf("|   Process Name     |         Entry CPU Time       |       Quit CPU Time    |\n");
+    printf("+====================+==============================+========================+\n");
+
     while (!(ptr == NULL && isEmptyQueue(rq) == 1))
     {
         current_running_process = dequeue(&rq);
@@ -39,12 +44,12 @@ void round_robin(PL pl, int quantum, TDL *tdl)
 
         if (current_running_process->pd.arrival_time > timer)
         {
-            printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
+            // printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
             timer = current_running_process->pd.arrival_time;
         }
         else if (timer > current_running_process->pd.arrival_time && n == 1)
         {
-            printf("The process: %s was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, timer);
+            // printf("The process: %s was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, timer);
         }
 
         if (quantum < current_running_process->pd.duration)
@@ -67,7 +72,9 @@ void round_robin(PL pl, int quantum, TDL *tdl)
             // Track the processes entry and exit cpu time
             track_process(tdl, current_running_process, old_timer, timer);
             // End track
-            printf("The process %s ran during 1 quantum, from %d to %d, the new duration is equal to = %d and the new arrival time is = %d\n\n", current_running_process->pd.process_name, old_timer, timer, current_running_process->pd.duration, current_running_process->pd.arrival_time);
+
+            // printf("The process %s ran during 1 quantum, from %d to %d, the new duration is equal to = %d and the new arrival time is = %d\n\n", current_running_process->pd.process_name, old_timer, timer, current_running_process->pd.duration, current_running_process->pd.arrival_time);
+            printf("|         %-3s        |    %5d                     |   %5d                |\n", current_running_process->pd.process_name, old_timer, timer);
         }
         else
         {
@@ -76,7 +83,8 @@ void round_robin(PL pl, int quantum, TDL *tdl)
             // Track the processes entry and exit cpu time
             track_process(tdl, current_running_process, old_timer, timer);
             // End track
-            printf("The process %s ran during %d CPU unit, from %d to %d. The process finish its execution.\n\n", current_running_process->pd.process_name, current_running_process->pd.duration, old_timer, timer);
+            // printf("The process %s ran during %d CPU unit, from %d to %d. The process finish its execution.\n\n", current_running_process->pd.process_name, current_running_process->pd.duration, old_timer, timer);
+            printf("|         %-3s        |    %5d                     |   %5d                |\n", current_running_process->pd.process_name, old_timer, timer);
         }
 
         while (ptr != NULL)
@@ -124,6 +132,8 @@ void round_robin(PL pl, int quantum, TDL *tdl)
         // Display the state of the ready queue
         // ... to do
     }
+
+    printf("+====================+==============================+========================+\n");
 }
 
 int main(int argc, char **argv)
@@ -156,10 +166,10 @@ int main(int argc, char **argv)
     }
 
     quantum = atoi(input);
-    
+
     // Init the tracking list
     tdl = NULL;
-    
+
     // print_process_list(pl);
     round_robin(pl, quantum, &tdl);
 
