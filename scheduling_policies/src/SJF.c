@@ -94,6 +94,11 @@ void sjf(PL pl, TDL *tdl)
         }
     }
 
+    // Init the table header
+    printf("+====================+==============================+========================+\n");
+    printf("|   Process Name     |         Entry CPU Time       |       Quit CPU Time    |\n");
+    printf("+====================+==============================+========================+\n");
+
     n = 0;
     while (!(isEmptyQueue(rq) == 1))
     {
@@ -101,18 +106,19 @@ void sjf(PL pl, TDL *tdl)
 
         if (current_running_process->pd.arrival_time > timer)
         {
-            printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
+            // printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
             timer = current_running_process->pd.arrival_time;
         }
         else if (timer > current_running_process->pd.arrival_time && n == 1)
         {
-            printf("The process: %s was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, timer);
+            // printf("The process: %s was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, timer);
         }
  
         // Track the processes entry and exit cpu time
         track_process(tdl, current_running_process, timer, timer + current_running_process->pd.duration);
         // End track
-        printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n\n", current_running_process->pd.process_name, timer, current_running_process->pd.duration, timer + current_running_process->pd.duration);
+        // printf("The process: %s ran from %d with a duration of %d and left the cpu at %d\n\n", current_running_process->pd.process_name, timer, current_running_process->pd.duration, timer + current_running_process->pd.duration);
+        printf("|         %-3s        |    %5d                     |   %5d                |\n", current_running_process->pd.process_name, timer, timer + current_running_process->pd.duration);
         timer += current_running_process->pd.duration;
 
         while (ptr != NULL)
@@ -138,6 +144,8 @@ void sjf(PL pl, TDL *tdl)
         // Display the state of the ready queue
         // ... to do
     }
+
+    printf("+====================+==============================+========================+\n");
 }
 
 int main(int argc, char **argv)

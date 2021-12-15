@@ -44,6 +44,10 @@ void dynamic_priority(PL pl, char *priority, TDL *tdl)
         }
     }
 
+    // Init the table header
+    printf("+====================+==============================+========================+\n");
+    printf("|   Process Name     |         Entry CPU Time       |       Quit CPU Time    |\n");
+    printf("+====================+==============================+========================+\n");
     n = 0;
     while (!(isEmptyQueue(rq) == 1))
     {
@@ -120,12 +124,12 @@ void dynamic_priority(PL pl, char *priority, TDL *tdl)
 
         if (current_running_process->pd.arrival_time > timer)
         {
-            printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
+            // printf("The CPU was empty from %d to %d\n", timer, current_running_process->pd.arrival_time);
             timer = current_running_process->pd.arrival_time;
         }
         else if (timer > current_running_process->pd.arrival_time && n == 1)
         {
-            printf("The process: %s was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, timer);
+            // printf("The process: %s was in the ready queue from the moment he wanted the CPU at %d to %d the moment when the CPU is empty\n", current_running_process->pd.process_name, current_running_process->pd.arrival_time, timer);
         }
 
         if (process_to_be_selected == NULL)
@@ -133,7 +137,8 @@ void dynamic_priority(PL pl, char *priority, TDL *tdl)
             // Track the processes entry and exit cpu time
             track_process(tdl, current_running_process, timer, expected_end_execution_time);
             // End track
-            printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d (process is not interrupted)\n\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, expected_end_execution_time);
+            // printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d (process is not interrupted)\n\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, expected_end_execution_time);
+            printf("|         %-3s        |    %5d                     |   %5d                |\n", current_running_process->pd.process_name, timer, expected_end_execution_time);
             timer += current_running_process->pd.duration;
         }
         else
@@ -141,7 +146,8 @@ void dynamic_priority(PL pl, char *priority, TDL *tdl)
             // Track the processes entry and exit cpu time
             track_process(tdl, current_running_process, timer, process_to_be_selected->pd.arrival_time);
             // End track
-            printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d (process is interrupted by %s)\n\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, process_to_be_selected->pd.arrival_time, process_to_be_selected->pd.process_name);
+            // printf("The process: %s ran from %d with a priority equal to %d and left the cpu at %d (process is interrupted by %s)\n\n", current_running_process->pd.process_name, timer, current_running_process->pd.priority, process_to_be_selected->pd.arrival_time, process_to_be_selected->pd.process_name);
+            printf("|         %-3s        |    %5d                     |   %5d                |\n", current_running_process->pd.process_name, timer, process_to_be_selected->pd.arrival_time);
 
             // Here we are sure that the current running process didn't finish its duration
             // Upgrading the current running process data
@@ -163,6 +169,8 @@ void dynamic_priority(PL pl, char *priority, TDL *tdl)
         // Display the state of the ready queue
         // ... to do
     }
+
+    printf("+====================+==============================+========================+\n");
 }
 
 int main(int argc, char **argv)
@@ -183,15 +191,14 @@ int main(int argc, char **argv)
         if (strcmp(priority, "ASC") == 0 || strcmp(priority, "DESC") == 0)
         {
             res = 1;
-        }    
+        }
         else
         {
             printf("Order selected does not match the allowed values !, Pleas try again: ");
         }
     }
-    
+
     strcpy(algorithm, "Dynamic_priority");
-    
 
     pl = parse_file(argv[1]);
     pl_sort(pl);
@@ -205,7 +212,7 @@ int main(int argc, char **argv)
 
     // Generate the analysis data
     load_data(pl, tdl, algorithm, 0, "./analysis/data/scheduler_dataset.csv");
-    
+
     /*
     printf("\nDEBUGGING \n");
     display_track_list(tdl);
